@@ -1,29 +1,28 @@
-name: Deploy static site to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Inject variables
-        run: |
-          echo "window.WIDGET_URL1 = '${{ vars.WIDGET_URL1 }}';" > env.js
+      - name: Generate env.js dynamically
+        run: echo "window.WIDGET_URL1 = '${{ vars.WIDGET_URL1 }}';" > env.js
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

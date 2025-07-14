@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Travel Widget</title>
   <style>
     body {
-      background-color: #111;
-      color: white;
-      font-family: sans-serif;
+      background-color: #121212;
+      color: #fff;
+      font-family: Arial, sans-serif;
       text-align: center;
-      padding-top: 100px;
+      padding: 100px;
+    }
+    h1 {
+      font-size: 2.5rem;
+    }
+    #widget-url {
+      margin-top: 20px;
+      font-size: 1.2rem;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to the Travel Widgetwwwwwwwwww!</h1>
+  <h1>Welcome to the Travel Widget!</h1>
   <p>Your widget URL is:</p>
-  <p id="widget-url">Not set</p>
+  <div id="widget-url">Not set</div>
 
   <script src="env.js"></script>
   <script>
-    document.getElementById('widget-url').textContent = window.WIDGET_URL1 || 'Not set';
+    document.getElementById("widget-url").innerText = window.WIDGET_URL1 || 'Not set';
   </script>
 </body>
 </html>
