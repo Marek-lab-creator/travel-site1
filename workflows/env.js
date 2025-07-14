@@ -1,0 +1,1 @@
+window.WIDGET_URL1 = "%WIDGET_URL1%";

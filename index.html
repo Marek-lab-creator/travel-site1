@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Travel Site</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Widget Page</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Welcome to my travel site!1111</h1>
+  <h1>Welcome to the Travel Widget!</h1>
+  <p>Your widget URL is:</p>
+  <code id="widget-url">Loading...</code>
 
-    <!-- miejsce na widget -->
-    <script async src="__WIDGET_URL1__" charset="utf-8"></script>
-
-    
+  <script src="env.js"></script>
+  <script>
+    // Display the value from env.js
+    document.getElementById('widget-url').textContent = window.WIDGET_URL1 || 'Not set';
+  </script>
 </body>
 </html>
