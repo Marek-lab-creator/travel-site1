@@ -1,1 +1,1 @@
-window.WIDGET_URL1 = "%WIDGET_URL1%";
+window.WIDGET_URL1 = 'https://example.com/my-widget-url';
