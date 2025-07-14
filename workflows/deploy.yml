@@ -1,0 +1,24 @@
+name: Deploy HTML with Widget
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Replace widget placeholder
+        run: |
+          mkdir dist
+          sed "s|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g" index.html > dist/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
