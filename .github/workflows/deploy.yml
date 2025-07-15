@@ -28,7 +28,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          path: site
+           name: github-pages  # <-- musi odpowiadać temu z `upload-pages-artifact`
 
   deploy:
     needs: build
