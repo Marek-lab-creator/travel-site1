@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 env:
-  WIDGET_URL1: "https://tpwidg.com/"
+  WIDGET_URL1: "https://example.com/widget.js"
 
 jobs:
   deploy:
