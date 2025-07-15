@@ -28,13 +28,13 @@ jobs:
         run: sed -i "s|{{WIDGET_URL1}}|${WIDGET_URL1}|g" index.html
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
 
   deploy:
     environment:
-      name: github-pages      # ← TO BYŁO WYMAGANE!
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
