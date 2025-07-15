@@ -17,20 +17,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate index.html using repository variable
-        run: |
-          echo "<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='UTF-8'>
-    <title>Widget</title>
-  </head>
-  <body>
-    ddddddddddd333
-    <script async src='${{ vars.WIDGET_URL1 }}' charset='utf-8'></script>
-  </body>
-</html>" > index.html
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
