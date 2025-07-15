@@ -22,11 +22,11 @@ jobs:
       - name: Set up Pages
         uses: actions/configure-pages@v5
 
-      - name: Prepare site directory and replace variable
-        run: |
-          mkdir -p site
-          cp index.html site/
-          sed -i "s|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g" site/index.html
+      # - name: Prepare site directory and replace variable
+      #   run: |
+      #     mkdir -p site
+      #     cp index.html site/
+      #     sed -i "s|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g" site/index.html
 
       # - name: Prepare site directory and replace variable
       #   shell: bash
@@ -37,7 +37,13 @@ jobs:
       #     sed -i "s|{{WIDGET_SCRIPT}}|<script async src='${WIDGET_URL1}' charset='utf-8'></script>|g" site/index.html
       #   env:
       #     WIDGET_URL1: ${{ secrets.WIDGET_URL1 }}
-
+      - name: Prepare site directory and replace variable
+        run: |
+          mkdir -p site
+          cp index.html site/
+          chmod u+w site/index.html
+          VALUE=$(printf '%s' "${{ secrets.WIDGET_URL1 }}" | sed 's/[&/\]/\\&/g')
+          sed -i "s|{{WIDGET_URL1}}|$VALUE|g" site/index.html
 
 
       - name: Upload artifact
