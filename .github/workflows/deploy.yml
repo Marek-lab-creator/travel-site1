@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy static site to GitHub Pages with secret widget
 
 on:
   push:
@@ -10,22 +10,22 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 env:
-  WIDGET_URL1: "https://example.com/widget.js"
+  WIDGET_URL1: ${{ secrets.WIDGET_URL1 }}
 
 jobs:
   build:
+    environment:
+      name: github-pages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Replace widget placeholder
-        run: sed -i "s|{{WIDGET_URL1}}|${WIDGET_URL1}|g" index.html
+        run: |
+          echo "Replacing widget URL"
+          sed -i "s|{{WIDGET_URL1}}|${WIDGET_URL1}|g" index.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -33,11 +33,10 @@ jobs:
           path: '.'
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
