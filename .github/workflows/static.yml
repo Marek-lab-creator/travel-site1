@@ -30,6 +30,8 @@ jobs:
 
       - name: Replace {{WIDGET_URL1}} with secret
         run: |
+          mkdir -p site
+          cp index.html site/
           sed -i 's|{{WIDGET_URL1}}|&|g' index.html
           sed -i "s|&|${{ secrets.WIDGET_URL1 }}|g" index.html
 
