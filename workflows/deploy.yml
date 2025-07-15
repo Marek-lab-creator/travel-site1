@@ -1,4 +1,4 @@
-name: Deploy widget to GitHub Pages
+name: Deploy
 
 on:
   push:
@@ -9,28 +9,17 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Create index.html with widget URL from environment variable
-      run: |
-        echo '<!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <title>Widget Page</title>
-        </head>
-        <body>
-          <h1>Witaj na mojej stronie!</h1>
-          <p>Oto mój widget:</p>
-          <script async src="'$WIDGET_URL1'" charset="utf-8"></script>
-        </body>
-        </html>' > index.html
-      env:
-        WIDGET_URL1: ${{ vars.WIDGET_URL1 }}
+      - name: Replace placeholder with real widget URL
+        run: |
+          sed "s|{{WIDGET_URL1}}|$WIDGET_URL1|g" index.html > final.html
+          mv final.html index.html
+        env:
+          WIDGET_URL1: ${{ vars.WIDGET_URL1 }}
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
