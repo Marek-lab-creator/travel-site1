@@ -14,17 +14,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Replace widget placeholder
+      - name: Replace {{WIDGET_URL1}} with actual value
         run: |
+          echo "Replacing widget placeholder with actual URL..."
           sed "s|{{WIDGET_URL1}}|$WIDGET_URL1|g" index.html > index_final.html
           mv index_final.html index.html
         env:
           WIDGET_URL1: ${{ vars.WIDGET_URL1 }}
 
-      - name: Upload artifact
+      - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
@@ -32,12 +33,12 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
