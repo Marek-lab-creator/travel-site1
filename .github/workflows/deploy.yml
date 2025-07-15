@@ -20,13 +20,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Replace placeholder with secret
+      - name: Replace secrets in HTML
         run: |
-          echo "Zamieniam {{WIDGET_URL1}} na sekret..."
+          echo "Wstawiam sekret do index.html"
           sed -i "s|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g" index.html
 
-      - name: Upload static site
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload static files
+        uses: actions/upload-pages-artifact@v3
         with:
           path: "."
 
