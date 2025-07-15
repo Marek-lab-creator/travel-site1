@@ -1,8 +1,9 @@
-name: GitHub Pages Deploy
+name: Build and Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -10,23 +11,32 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Replace env variable in HTML
+      - name: Set up Pages
+        uses: actions/configure-pages@v3
+
+      - name: Copy static content
         run: |
-          mkdir site
-          envsubst < index.html > site/index.html
-        env:
-          WIDGET_URL1: ${{ secrets.WIDGET_URL1 }}
+          mkdir -p site
+          cp index.html site/
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v2
         with:
           path: site
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v3
