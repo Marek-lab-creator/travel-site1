@@ -9,32 +9,24 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  WIDGET_URL1: "https://tpwidg.com/"
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Replace placeholder with variable
+      - name: Replace placeholders in HTML
         run: |
-          echo "Replacing {{WIDGET_URL1}} with ${{ vars.WIDGET_URL1 }}"
-          sed -i "s|{{WIDGET_URL1}}|${{ vars.WIDGET_URL1 }}|g" index.html
+          sed -i "s|{{WIDGET_URL1}}|${WIDGET_URL1}|g" index.html
 
-      - name: Upload artifact
+      - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
