@@ -27,9 +27,11 @@ jobs:
       #     mkdir -p site
       #     cp index.html site/
       #     sed -i "s|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g" site/index.html
-      - name: Replace WIDGET_URL1 with secret
+
+      - name: Replace {{WIDGET_URL1}} with secret
         run: |
-        sed -i 's|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g' index.html
+          sed -i 's|{{WIDGET_URL1}}|&|g' index.html
+          sed -i "s|&|${{ secrets.WIDGET_URL1 }}|g" index.html
 
 
       - name: Upload artifact
