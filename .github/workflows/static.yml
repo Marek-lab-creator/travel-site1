@@ -22,11 +22,15 @@ jobs:
       - name: Set up Pages
         uses: actions/configure-pages@v5
 
-      - name: Prepare site directory and replace variable
+      # - name: Prepare site directory and replace variable
+      #   run: |
+      #     mkdir -p site
+      #     cp index.html site/
+      #     sed -i "s|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g" site/index.html
+      - name: Replace WIDGET_URL1 with secret
         run: |
-          mkdir -p site
-          cp index.html site/
-          sed -i "s|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g" site/index.html
+        sed -i 's|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g' index.html
+
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
