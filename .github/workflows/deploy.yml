@@ -1,41 +1,32 @@
-name: Deploy to GitHub Pages
+name: GitHub Pages Deploy
 
 on:
   push:
-    branches: ["main"]
+    branches: [ main ]
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Replace secrets in HTML
+      - name: Replace env variable in HTML
         run: |
-          echo "Wstawiam sekret do index.html"
-          sed -i "s|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g" index.html
+          mkdir site
+          envsubst < index.html > site/index.html
+        env:
+          WIDGET_URL1: ${{ secrets.WIDGET_URL1 }}
 
-      - name: Upload static files
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          path: "."
+          path: site
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v3
