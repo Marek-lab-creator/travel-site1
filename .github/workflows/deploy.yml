@@ -20,21 +20,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Replace placeholder with secret value
+      - name: Replace placeholder with secret
         run: |
-          echo "Replacing {{WIDGET_URL1}} with secret..."
+          echo "Zamieniam {{WIDGET_URL1}} na sekret..."
           sed -i "s|{{WIDGET_URL1}}|${{ secrets.WIDGET_URL1 }}|g" index.html
 
-      - name: Upload artifact
+      - name: Upload static site
         uses: actions/upload-pages-artifact@v2
         with:
-          path: '.'
+          path: "."
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
