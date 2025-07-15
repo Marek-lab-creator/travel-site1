@@ -8,15 +8,18 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Replace placeholder with actual widget URL
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Replace widget placeholder
         run: |
-          sed "s|{{WIDGET_URL1}}|$WIDGET_URL1|g" index.html > final_index.html
-          mv final_index.html index.html
+          echo "Zamieniam {{WIDGET_URL1}} na: $WIDGET_URL1"
+          sed "s|{{WIDGET_URL1}}|$WIDGET_URL1|g" index.html > index_final.html
+          mv index_final.html index.html
         env:
-          WIDGET_URL1: ${{ secrets.WIDGET_URL1 }}
+          WIDGET_URL1: ${{ vars.WIDGET_URL1 }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
