@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy
 
 on:
   push:
@@ -16,6 +16,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Replace placeholder with variable
+        run: |
+          echo "Replacing {{WIDGET_URL1}} with ${{ vars.WIDGET_URL1 }}"
+          sed -i "s|{{WIDGET_URL1}}|${{ vars.WIDGET_URL1 }}|g" index.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -24,10 +29,12 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
