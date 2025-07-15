@@ -35,8 +35,8 @@ jobs:
           cp index.html site/index.html
           chmod u+w site/index.html
           sed -i "s|{{WIDGET_URL1}}|$WIDGET_URL1|g" site/index.html
-          env:
-            WIDGET_URL1: ${{ secrets.WIDGET_URL1 }}
+        env:
+          WIDGET_URL1: ${{ secrets.WIDGET_URL1 }}
 
 
 
